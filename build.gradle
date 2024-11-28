@@ -8,7 +8,7 @@ plugins {
 
 }
 
-group = 'br.com.fiap.lanchonete'
+group = 'br.com.fiap.foodtech'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -84,7 +84,7 @@ jacocoTestReport {
 
 jar {
 	manifest {
-		attributes 'Main-Class': 'br.com.fiap.lanchonete.produtoservicefase4.Produtoservicefase4Application'
+		attributes 'Main-Class': 'br.com.fiap.foodtech.produtoservicefase4.Produtoservicefase4Application'
 	}
 
 	from sourceSets.main.output
