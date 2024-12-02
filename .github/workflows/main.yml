@@ -38,6 +38,29 @@ jobs:
         with:
           name: Package
           path: build/libs
+          
+      - name: Cache SonarCloud dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}
+
+      # Instalação do SonarScanner (necessário para rodar o SonarCloud)
+      - name: Install SonarScanner
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+          unzip sonar-scanner-cli-4.7.0.2747-linux.zip
+          sudo mv sonar-scanner-4.7.0.2747-linux /opt/sonar-scanner
+          sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+
+      # Rodar o SonarScanner para análise do SonarCloud
+      - name: Run SonarCloud Scanner
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}  # Defina a chave do projeto
+            -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }}    # Defina o nome da organização
+            -Dsonar.host.url=https://sonarcloud.io               # URL do SonarCloud
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}             # Token de autenticação
 
       - name: Build, tag, and push the image to Amazon ECR
         id: build-image
