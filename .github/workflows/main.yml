@@ -13,6 +13,7 @@ env:
   ECR_REPOSITORY: foodtech
   EKS_CLUSTER_NAME: foodtech-eks-cluster
   AWS_REGION: us-east-1
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 jobs:
   build:
