@@ -59,8 +59,6 @@ sonarqube {
 		property "sonar.projectKey", "grupo27-6soat-fiap_produto-fase044"
 		property "sonar.organization", "grupo27-6soat-fiap"
 		property "sonar.host.url", "https://sonarcloud.io"
-		property "sonar.token", System.getenv("SONAR_TOKEN")
-		property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
 
 	}
 }
