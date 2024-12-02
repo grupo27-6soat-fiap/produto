@@ -50,7 +50,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Token armazenado como segredo no GitHub
         run: |
             chmod +x ./gradlew # Adiciona permissão de execução
-            ./gradlew clean build sonarqube \
+            ./gradlew clean build sonar \
             -Dsonar.projectKey=grupo27-6soat-fiap_produto-fase04 \
             -Dsonar.organization=grupo27-6soat-fiap \
             -Dsonar.host.url=https://sonarcloud.io
