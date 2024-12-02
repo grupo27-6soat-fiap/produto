@@ -51,19 +51,8 @@ jobs:
         run: |
             chmod +x ./gradlew # Adiciona permissão de execução
             ./gradlew clean build sonar \
-            #-Dsonar.projectKey=grupo27-6soat-fiap_produto-fase04 \
-            #-Dsonar.organization=grupo27-6soat-fiap \
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-            -Dsonar.organization=${{ secrets.SONAR_ORG_KEY }} \
+            -Dsonar.projectKey=grupo27-6soat-fiap_produto-fase04 \
+            -Dsonar.organization=grupo27-6soat-fiap \
             -Dsonar.host.url=https://sonarcloud.io
           
-          #sonar-scanner \
-            #-Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}  # Defina a chave do projeto
-            #-Dsonar.projectKey = grupo27-6soat-fiap_produto-fase04\
-            #-Dsonar.organization=${{ secrets.SONAR_ORG_KEY }}    # Defina o nome da organização
-            #-Dsonar.organization= grupo27-6soat-fiap \
-            #-Dsonar.host.url=https://sonarcloud.io \           # URL do SonarCloud
-            #-Dsonar.login=${{ secrets.SONAR_TOKEN }}             # Token de autenticação
-            #-Dsonar.login=9189c009a14baed85ddc539a526adce905197a17
-
 # sed -i.bak "s|jdbc:postgresql://postgres-svc:5432/postgres|jdbc:postgresql://$RDS_HOSTNAME:5432/postgres|g" k8s/deployment-app.yml && \
