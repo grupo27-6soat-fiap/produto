@@ -54,7 +54,7 @@ jobs:
           token: ${{ secrets.SONAR_TOKEN }}
           organization: grupo27-6soat-fiap  # Substitua pela sua organização do SonarCloud
           projectKey: produto-fase04       # Substitua pelo seu projeto no SonarCloud
-          url: ${{ secrets.SONAR_HOST_URL }}  # Para SonarCloud ou SonarQube local
+          url: https://sonarcloud.io  # Para SonarCloud ou SonarQube local
 
      # - name: Set permissions for Gradle wrapper
         #run: chmod +x ./gradlew    
