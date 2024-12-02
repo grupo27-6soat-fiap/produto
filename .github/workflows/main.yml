@@ -50,7 +50,6 @@ jobs:
       - name: Run SonarQube Scanner
         uses: sonarsource/sonarcloud-action@v2
         with:
-          organization: grupo27-6soat-fiap 
           token: ${{ secrets.SONAR_TOKEN }}
           url: ${{ secrets.SONAR_HOST_URL }} 
 
