@@ -1,94 +1,40 @@
-name: FoodTech_Build
+name: Build and Analyze with SonarCloud
 
 on:
   push:
     branches:
-      - master
+      - main 
   pull_request:
     branches:
-      - master
-  workflow_dispatch:
-  
-env:
-  ECR_REPOSITORY: foodtech
-  EKS_CLUSTER_NAME: foodtech-eks-cluster
-  AWS_REGION: us-east-1
+      - main
 
 jobs:
-  build:
+  build_and_analyze:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set short git commit SHA
-        id: commit
-        uses: prompt/actions-commit-hash@v3
-
+      # Passo 1: Fazer checkout do código
       - name: Checkout code
-        uses: actions/checkout@v3
-        
-      - name: Cache SonarCloud dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar-${{ hashFiles('**/sonar-project.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-sonar-
+        uses: actions/checkout@v2
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1
-
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
+      # Passo 2: Configurar Java
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
           java-version: '17'
 
-      - name: Set permissions for Gradle wrapper
-        run: chmod +x ./gradlew    
-
-      - name: Build with Gradle
-        run: |
-          ./gradlew build --no-daemon
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+      # Passo 3: Cache Gradle dependencies
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
         with:
-          name: Package
-          path: build/libs
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      - name: Build, tag, and push the image to Amazon ECR
-        id: build-image
+      # Passo 4: Instalar dependências e rodar o build com SonarCloud
+      - name: Build with Gradle and analyze with SonarCloud
+        run: ./gradlew clean build sonarqube
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
-          IMAGE_TAG: ${{ steps.commit.outputs.short }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          echo "Pushing image to ECR..."
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
-
-      - name: Deploy to EKS
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
-          IMAGE_TAG: ${{ steps.commit.outputs.short }}
-          RDS_HOSTNAME: ${{ secrets.RDS_HOSTNAME }}
-        run: |
-    
-          sed -i.bak "s|xxx/lanchonete-myapp:1.0.8|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" k8s/deployment-app.yml && \
-          sed -i.bak "s|jdbc:postgresql://postgres-svc:5432/postgres|jdbc:postgresql://$RDS_HOSTNAME:5432/postgres|g" k8s/deployment-app.yml && \
-          kubectl apply -f k8s/secret-postgress.yml && \
-          kubectl apply -f k8s/secret-payment.yml && \
-          kubectl apply -f k8s/deployment-app.yml && \
-          kubectl apply -f k8s/service-app.yml && \
-          kubectl apply -f k8s/loadbalancer.yml && \
-          kubectl apply -f k8s/hpa.yml && \
-          kubectl rollout restart deployment lanchonete-deployment
-
-# sed -i.bak "s|jdbc:postgresql://postgres-svc:5432/postgres|jdbc:postgresql://$RDS_HOSTNAME:5432/postgres|g" k8s/deployment-app.yml && \
