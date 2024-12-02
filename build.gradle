@@ -54,10 +54,10 @@ dependencies {
 }
 
 
-sonar {
+sonarqube {
 	properties {
-		property "sonar.projectKey", "FIAP-GRUPO-G57_produto-fase-4"
-		property "sonar.organization", "fiap-grupo-g57"
+		property "sonar.projectKey", "grupo27-6soat-fiap_produto-fase044"
+		property "sonar.organization", "grupo27-6soat-fiap"
 		property "sonar.host.url", "https://sonarcloud.io"
 		property "sonar.token", System.getenv("SONAR_TOKEN")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
