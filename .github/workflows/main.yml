@@ -58,10 +58,10 @@ jobs:
         run: |
           sonar-scanner \
             #-Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}  # Defina a chave do projeto
-            -Dsonar.projectKey = grupo27-6soat-fiap_produto-fase04
+            -Dsonar.projectKey = grupo27-6soat-fiap_produto-fase04\
             #-Dsonar.organization=${{ secrets.SONAR_ORG_KEY }}    # Defina o nome da organização
-            -Dsonar.organization= grupo27-6soat-fiap
-            -Dsonar.host.url=https://sonarcloud.io            # URL do SonarCloud
+            -Dsonar.organization= grupo27-6soat-fiap \
+            -Dsonar.host.url=https://sonarcloud.io \           # URL do SonarCloud
             #-Dsonar.login=${{ secrets.SONAR_TOKEN }}             # Token de autenticação
             -Dsonar.login=9189c009a14baed85ddc539a526adce905197a17
 
