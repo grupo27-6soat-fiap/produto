@@ -47,9 +47,12 @@ jobs:
        
       - name: Build and analyze with SonarCloud
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          run: |
-           ./gradlew clean build sonarqube
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Token armazenado como segredo no GitHub
+        run: |
+          ./gradlew clean build sonarqube \
+            -Dsonar.projectKey=grupo27-6soat-fiap_produto-fase04 \
+            -Dsonar.organization=grupo27-6soat-fiap \
+            -Dsonar.host.url=https://sonarcloud.io
      
           #sonar-scanner \
             #-Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}  # Defina a chave do projeto
