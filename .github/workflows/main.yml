@@ -51,7 +51,6 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@v2
         with:
           token: ${{ secrets.SONAR_TOKEN }}
-          url: ${{ secrets.SONAR_HOST_URL }} 
 
      # - name: Set permissions for Gradle wrapper
         #run: chmod +x ./gradlew    
