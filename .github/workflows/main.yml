@@ -1,0 +1,40 @@
+name: Build and Analyze with SonarCloud
+
+on:
+  push:
+    branches:
+      - main 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Fazer checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Passo 2: Configurar Java
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      # Passo 3: Cache Gradle dependencies
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Passo 4: Instalar dependências e rodar o build com SonarCloud
+      - name: Build with Gradle and analyze with SonarCloud
+        run: ./gradlew clean build sonarqube
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
