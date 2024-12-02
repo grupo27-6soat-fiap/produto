@@ -36,9 +36,7 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v1
-        with:
-          organization: grupo27-6soat-fiap    # Substitua com sua organização no SonarCloud
-          projectKey: produto-fase04  # Substitua com seu projectKey no SonarCloud
+
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           
