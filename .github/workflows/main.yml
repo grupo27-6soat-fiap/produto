@@ -32,8 +32,8 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
   
-      - name: Set permissions for Gradle wrapper
-        run: chmod +x ./gradlew  
+      #- name: Set permissions for Gradle wrapper
+       # run: chmod +x ./gradlew  
         
       #- name: Run JaCoCo
         #run: ./gradlew test jacocoTestReport
