@@ -48,7 +48,7 @@ jobs:
           key: ${{ runner.os }}-sonar-${{ hashFiles('**/*.java') }}  # Ajuste para o seu código se necessário
 
       - name: Run SonarQube Scanner
-        uses: sonarsource/sonarcloud-action@v2
+        uses: sonarsource/sonarcloud-github-action@v2
         with:
           token: ${{ secrets.SONAR_TOKEN }}
           url: ${{ secrets.SONAR_HOST_URL }} 
