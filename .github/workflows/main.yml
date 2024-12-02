@@ -60,7 +60,7 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}  # Defina a chave do projeto
             #-Dsonar.organization=${{ secrets.SONAR_ORG_KEY }}    # Defina o nome da organização
             -Dsonar.organization= grupo27-6soat-fiap
-            #-Dsonar.host.url=https://sonarcloud.io               # URL do SonarCloud
+            -Dsonar.host.url=https://sonarcloud.io               # URL do SonarCloud
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}             # Token de autenticação
 
       - name: Build, tag, and push the image to Amazon ECR
